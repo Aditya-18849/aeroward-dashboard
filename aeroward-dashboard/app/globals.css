@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --base: #050a14;
+  --rim: #0ea5e9;
+  --danger: #ff2d55;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--base);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* ── COMMAND GRID ── */
+.command-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr 340px;
+  grid-template-rows: 60px 1fr 40px;
+  width: 100vw;
+  height: 100vh;
+  gap: 1px;
+  background-color: rgba(14, 165, 233, 0.1);
+  overflow: hidden;
+}
+
+.topbar {
+  grid-column: 1 / -1;
+  background: #050a14;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.left-panel {
+  background: #050a14;
+  padding: 20px;
+  border-right: 1px solid rgba(14, 165, 233, 0.1);
+  overflow-y: auto;
+}
+
+.center-panel {
+  position: relative;
+  background: #050a14;
+  overflow: hidden;
+}
+
+.right-panel {
+  background: #0b1120;
+  padding: 20px;
+  border-left: 1px solid rgba(14, 165, 233, 0.1);
+  overflow-y: auto;
+}
+
+.statusbar {
+  grid-column: 1 / -1;
+  background: #050a14;
+  border-top: 1px solid rgba(14, 165, 233, 0.2);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  align-items: center;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+/* ── SCANLINE OVERLAY ── */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ── NOISE OVERLAY (SVG grain) — FIX for top-left box ── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.025;
+  z-index: 99;
+}
+
+/* ── MISC UI ── */
+.criticality-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(14, 165, 233, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.criticality-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s ease-out;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: rgba(148, 163, 184, 0.6);
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+  border-color: rgba(14, 165, 233, 0.4);
+  color: rgba(14, 165, 233, 0.8);
+}
+
+.broadcast-icon {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.critical-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.ward-c-glow {
+  animation: wardGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes wardGlow {
+  from { opacity: 0.3; }
+  to { opacity: 0.8; }
+}

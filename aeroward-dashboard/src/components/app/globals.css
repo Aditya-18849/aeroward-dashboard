@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+/* ── DESIGN TOKENS ── */
+:root {
+  --base: #050A14;
+  --surface: #0B1120;
+  --rim: #0EA5E9;
+  --danger: #FF2D55;
+  --anomaly: #BF5AF2;
+  --nominal: #30D158;
+  --warning: #FFD60A;
+  --ghost: rgba(148, 163, 184, 0.4);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-data: 'JetBrains Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ── RESET ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--base);
+  color: #e2e8f0;
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── SCANLINE OVERLAY ── */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(to bottom,
+      transparent 0px,
+      transparent 1px,
+      rgba(14, 165, 233, 0.015) 1px,
+      rgba(14, 165, 233, 0.015) 2px);
+}
+
+/* ── NOISE GRAIN OVERLAY ── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.018;
+}
+
+/* ── COMMAND GRID LAYOUT ── */
+.command-grid {
+  display: grid;
+  grid-template-rows: 44px 1fr 28px;
+  grid-template-columns: 256px 1fr 288px;
+  height: 100vh;
+  width: 100vw;
+  gap: 0;
+  background: var(--base);
+}
+
+.topbar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  background: var(--surface);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.12);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 10;
+}
+
+.left-panel {
+  grid-column: 1;
+  grid-row: 2;
+  background: var(--surface);
+  border-right: 1px solid rgba(14, 165, 233, 0.08);
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.center-panel {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  overflow: hidden;
+  background: var(--base);
+}
+
+.right-panel {
+  grid-column: 3;
+  grid-row: 2;
+  background: var(--surface);
+  border-left: 1px solid rgba(14, 165, 233, 0.08);
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.statusbar {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  background: var(--surface);
+  border-top: 1px solid rgba(14, 165, 233, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-family: var(--font-data);
+  font-size: 10px;
+  color: var(--ghost);
+}
+
+/* ── SCROLLBAR STYLING ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.2);
+  border-radius: 2px;
+}
+
+/* ── TICKER SCROLL ── */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker-scroll 60s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+
+/* ── SONAR RINGS ── */
+@keyframes sonar-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.sonar-ring {
+  animation: sonar-pulse 3s linear infinite;
+}
+
+.sonar-ring:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.sonar-ring:nth-child(3) {
+  animation-delay: 2s;
+}
+
+/* ── WARD C PULSE ── */
+@keyframes ward-c-pulse {
+
+  0%,
+  100% {
+    background-color: var(--surface);
+  }
+
+  50% {
+    background-color: rgba(191, 90, 242, 0.08);
+  }
+}
+
+.ward-c-row {
+  animation: ward-c-pulse 1.5s steps(8) infinite;
+}
+
+/* ── CRITICAL BLINK ── */
+@keyframes critical-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.critical-blink {
+  animation: critical-blink 1s steps(2) infinite;
+}
+
+/* ── BROADCAST PULSE ── */
+@keyframes broadcast-pulse {
+
+  0%,
+  75%,
+  100% {
+    opacity: 0.3;
+  }
+
+  80% {
+    opacity: 1;
+  }
+}
+
+.broadcast-icon {
+  animation: broadcast-pulse 4s steps(4) infinite;
+}
+
+/* ── PULSING DOT ── */
+@keyframes dot-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 6px var(--rim);
+  }
+
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 2px var(--rim);
+  }
+}
+
+.pulse-dot {
+  animation: dot-pulse 2s steps(4) infinite;
+}
+
+/* ── WARD NODE GLOW ── */
+@keyframes node-glow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px var(--anomaly));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px var(--anomaly));
+  }
+}
+
+.ward-c-glow {
+  animation: node-glow 2s steps(6) infinite;
+}
+
+/* ── GLASSMORPHISM CARD ── */
+.glass-card {
+  background: rgba(11, 17, 32, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 4px;
+}
+
+/* ── DATA CONTAINERS ── */
+.data-panel {
+  border-radius: 4px;
+  border: 1px solid rgba(14, 165, 233, 0.08);
+}
+
+/* ── STATUSBAR SCROLL ── */
+@keyframes statusbar-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.statusbar-ticker {
+  animation: statusbar-scroll 30s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+
+/* ── COUNTDOWN FLASH ── */
+@keyframes countdown-flash {
+
+  0%,
+  100% {
+    color: var(--danger);
+  }
+
+  50% {
+    color: rgba(255, 45, 85, 0.5);
+  }
+}
+
+/* ── BUTTON STYLES ── */
+.btn-primary {
+  font-family: var(--font-display);
+  letter-spacing: 2px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s linear;
+  border-radius: 2px;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.15);
+}
+
+.btn-ghost {
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+  background: transparent;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  color: var(--rim);
+  cursor: pointer;
+  transition: all 0.15s linear;
+  border-radius: 2px;
+}
+
+.btn-ghost:hover {
+  border-color: var(--rim);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+/* ── CRITICALITY BAR ── */
+.criticality-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(14, 165, 233, 0.1);
+  overflow: hidden;
+}
+
+.criticality-fill {
+  height: 100%;
+  transition: width 0.3s linear;
+  border-radius: 2px;
+}
+
+/* ── RESPONSIVE (min 1280px) ── */
+@media (max-width: 1280px) {
+  .command-grid {
+    grid-template-columns: 220px 1fr 260px;
+  }
+}
